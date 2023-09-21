@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy on Tomcat'){
             steps{
                 echo 'Deploying on Tomcat '
-                sshagent(['tomcat-cred']) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-cred', keyFileVariable: 'SSH_KEY', passphraseVariable: '', usernameVariable: 'TOMCAT_USER')]) {
                     bat 'scp -v -o StrictHostKeyChecking=no target/demowar-0.0.1-SNAPSHOT.war ubuntu@54.89.205.78::/opt/tomcat/webapps'
                 }
             }
